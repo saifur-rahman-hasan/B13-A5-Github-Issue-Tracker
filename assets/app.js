@@ -392,7 +392,10 @@ const handleSearch = async () => {
   appState.searchQuery = query;
   showLoading();
   
-  const searchResults = await searchIssues(query);
+  // If query is empty, fetch all issues; otherwise search
+  const searchResults = query === '' 
+    ? await fetchAllIssues() 
+    : await searchIssues(query);
   appState.allIssues = searchResults;
   
   const filteredIssues = getFilteredIssues();
@@ -441,6 +444,13 @@ const initializeEventListeners = () => {
   if (elements.searchInput) {
     elements.searchInput.addEventListener('keypress', (event) => {
       if (event.key === 'Enter') {
+        handleSearch();
+      }
+    });
+    
+    // Auto-reload all issues when search is cleared
+    elements.searchInput.addEventListener('input', (event) => {
+      if (event.target.value.trim() === '') {
         handleSearch();
       }
     });
