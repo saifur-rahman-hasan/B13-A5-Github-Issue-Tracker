@@ -19,16 +19,17 @@
             </div>
 
             <div class="flex w-full max-w-xs items-center gap-2 sm:max-w-md">
-                <div class="relative w-full">
+                <div class="relative flex-1">
                     <i class="fa fa-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-slate-400"></i>
                     <input
+                        id="searchInput"
                         type="text"
                         placeholder="Search issues..."
                         class="w-full rounded-md border border-slate-200 bg-slate-50 py-2 pr-3 pl-8 text-sm outline-none transition focus:border-indigo-400 focus:bg-white"
                     >
                 </div>
-                <button type="button" class="shrink-0 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 sm:px-4">
-                    <i class="fa fa-plus mr-1.5" aria-hidden="true"></i>New Issue
+                <button id="searchButton" type="button" class="shrink-0 rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 sm:px-4">
+                    <i class="fa fa-search mr-1.5" aria-hidden="true"></i>Search
                 </button>
             </div>
         </nav>
@@ -61,8 +62,8 @@
         <section class="mt-4 rounded-lg border border-slate-200 bg-white shadow-sm">
             <div class="flex flex-col justify-between gap-3 border-b border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:px-6">
                 <div class="flex items-center gap-3">
-                    <span class="grid h-8 w-8 place-items-center rounded-full bg-indigo-100 text-indigo-600">
-                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    <span class="grid h-10 w-10 place-items-center rounded-full bg-indigo-100">
+                        <img src="assets/Aperture.png" alt="All Issues" class="h-6 w-6 object-contain">
                     </span>
                     <div>
                         <h2 class="text-lg font-extrabold text-slate-800"><span id="issueCount">50</span> Issues</h2>
@@ -72,11 +73,11 @@
 
                 <div class="flex items-center gap-4 text-sm">
                     <span class="inline-flex items-center gap-1.5 text-slate-600">
-                        <i class="fa fa-folder-open text-emerald-500" aria-hidden="true"></i>
+                        <span class="size-3 bg-emerald-500 rounded-full"></span>
                         Open
                     </span>
                     <span class="inline-flex items-center gap-1.5 text-slate-600">
-                        <i class="fa fa-check-circle text-violet-500" aria-hidden="true"></i>
+                        <span class="size-3 bg-violet-500 rounded-full"></span>
                         Closed
                     </span>
                 </div>
@@ -91,33 +92,33 @@
             <el-dialog-backdrop class="fixed inset-0 bg-slate-900/45 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"></el-dialog-backdrop>
 
             <div tabindex="0" class="flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center">
-                <el-dialog-panel class="relative w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white px-6 pt-8 pb-6 text-left shadow-2xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:px-8 sm:pt-10 sm:pb-8 data-closed:sm:translate-y-0 data-closed:sm:scale-95">
-                    <h3 id="issue-dialog-title" class="text-3xl font-extrabold tracking-tight text-slate-800"></h3>
+                <el-dialog-panel class="relative w-full max-w-2xl transform overflow-hidden rounded-xl bg-white px-6 py-6 text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:px-8 sm:py-8 data-closed:sm:translate-y-0 data-closed:sm:scale-95">
+                    <h3 id="issue-dialog-title" class="text-2xl font-bold tracking-tight text-slate-900"></h3>
 
-                    <div class="mt-3 flex flex-wrap items-center gap-3 text-sm text-slate-500">
-                        <span id="issue-dialog-status-badge" class="inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold"></span>
-                        <span class="inline-flex items-center gap-1.5"><i class="fa fa-user-o" aria-hidden="true"></i>Opened by <span id="issue-dialog-author"></span></span>
-                        <span class="inline-flex items-center gap-1.5"><i class="fa fa-calendar" aria-hidden="true"></i><span id="issue-dialog-created"></span></span>
+                    <div class="mt-4 flex flex-wrap items-center gap-2 text-sm text-slate-600">
+                        <span id="issue-dialog-status-badge" class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold"></span>
+                        <span class="inline-flex items-center gap-1"><i class="fa fa-user-o text-slate-400" aria-hidden="true"></i>Opened By <span id="issue-dialog-author"></span></span>
+                        <span class="inline-flex items-center gap-1"><i class="fa fa-calendar text-slate-400" aria-hidden="true"></i><span id="issue-dialog-created"></span></span>
                     </div>
 
-                    <div id="issue-dialog-labels" class="mt-5 flex flex-wrap items-center gap-2"></div>
+                    <div id="issue-dialog-labels" class="mt-4 flex flex-wrap items-center gap-1.5"></div>
 
-                    <p id="issue-dialog-description" class="mt-8 max-w-3xl text-3xl/relaxed text-slate-500 sm:text-[34px]"></p>
+                    <p id="issue-dialog-description" class="mt-6 text-base leading-relaxed text-slate-700"></p>
 
-                    <div class="mt-8 grid gap-4 rounded-xl bg-slate-100 p-4 text-slate-500 sm:grid-cols-2 sm:p-5">
-                        <div>
-                            <p class="text-3xl"><i class="fa fa-user-circle-o mr-2" aria-hidden="true"></i>Assignee:</p>
-                            <p id="issue-dialog-assignee" class="mt-1 text-4xl font-bold text-slate-800"></p>
+                    <div class="mt-8 grid gap-4 rounded-lg bg-slate-50 p-4 sm:grid-cols-2">
+                        <div class="border-r border-slate-200 sm:border-r">
+                            <p class="text-sm font-semibold text-slate-600">Assignee</p>
+                            <p id="issue-dialog-assignee" class="mt-2 text-base font-semibold text-slate-900"></p>
                         </div>
                         <div>
-                            <p class="text-3xl"><i class="fa fa-flag-o mr-2" aria-hidden="true"></i>Priority:</p>
-                            <span id="issue-dialog-priority-badge" class="mt-2 inline-flex items-center rounded-full px-4 py-1.5 text-2xl font-bold"></span>
+                            <p class="text-sm font-semibold text-slate-600">Priority</p>
+                            <span id="issue-dialog-priority-badge" class="mt-2 inline-flex items-center rounded-full px-3 py-1 text-sm font-medium uppercase"></span>
                         </div>
                     </div>
 
-                    <div class="mt-7 flex justify-end">
-                        <button type="button" command="close" commandfor="issueDetailDialog" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-7 py-3 text-3xl font-semibold text-white transition hover:bg-indigo-500">
-                            <i class="fa fa-times mr-2" aria-hidden="true"></i>Close
+                    <div class="mt-8 flex justify-end gap-3">
+                        <button type="button" command="close" commandfor="issueDetailDialog" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-6 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700">
+                            Close
                         </button>
                     </div>
                 </el-dialog-panel>
